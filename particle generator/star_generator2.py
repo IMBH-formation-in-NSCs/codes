@@ -2,7 +2,8 @@
 #
 # This program generates a list of stars with the following conditions:
 #
-# - Mass distribution follows Kroupa(2001) IMF
+# - Mass distribution follows Kroupa(2001) IMF, but masses below 3 solar masses
+#   are ignored and set 3 solar mass
 #   The mass-giving procedure goes as follows:
 #   (1) draw a cdf(cumulative distribution function) from the given IMF
 #   (2) pick a random number u from [0,1)
@@ -37,7 +38,7 @@ from timeit import default_timer as timer
 start = timer()
 
 # Given conditions
-ClusterMass = 10**4 # solar mass
+ClusterMass = 10**5 # solar mass
 ClusterSize = 3.0   # pc
 
 # Initialize
@@ -69,12 +70,13 @@ cdf_2 = cdf_1.subs(m,0.08) + integrate(xi_2,m) - integrate(xi_2,m).subs(m,0.08)
 cdf_3 = cdf_2.subs(m,0.5) + integrate(xi_3,m) - integrate(xi_3,m).subs(m,0.5)
 
 # piecewise integrals
-integral_1 = cdf_1.subs(m,0.08)
-integral_2 = cdf_2.subs(m,0.5)
-integral_3 = cdf_3.subs(m,oo) # total integral of the pdf
+integral_1 = cdf_1.subs(m,0.08) # from 0 to 0.08
+integral_2 = cdf_2.subs(m,0.5)  # from 0 to 0.5
+integral_3 = cdf_3.subs(m,3.0)  # from 0 to 3.0
+integral_4 = cdf_3.subs(m,oo)   # from 0 to inf; total integral of the pdf
 
 # k as a normalization constant
-k = 1/integral_3
+k = 1/integral_4
 
 # the normalized IMF would be k * xi_1,2,3
 # the normalized cdf would be k * cdf_1,2,3
@@ -124,18 +126,14 @@ while MassOfGeneratedStars < ClusterMass * MassUnit :
     # MASS
 
     # pick a random number and solve u = cdf_i(m) for m
-    # since the Kroupa IMF is a piecewise function, we need to break it to invert it.
     # the explicit form of cdfs are calculated from the IMF by hand.
     u = np.random.random()
 
-    if u <= k*integral_1:
-        mass = (u/k * 0.7/0.08**0.3 + 0.01**0.7)**(1/0.7) * MassUnit
-
-    elif k*integral_1 < u <= k*integral_2:
-        mass = ((k*integral_1-u)*0.3/k/0.08**1.3 + 0.08**(-0.3))**(-1/0.3) * MassUnit
+    if u <= k*integral_3:
+        mass = 3.0 * MassUnit
 
     else:
-        mass = ((k*integral_2-u)*1.3/k/0.5/0.08**1.3 + 0.5**(-1.3))**(-1/1.3) * MassUnit
+        mass = ((k*integral_3-u)*1.3/k/0.5/0.08**1.3 + 3.0**(-1.3))**(-1/1.3) * MassUnit
 
 
 
@@ -180,7 +178,7 @@ while MassOfGeneratedStars < ClusterMass * MassUnit :
     vy = (vr*sin(theta0)*sin(phi) + vt*(cos(psi)*cos(theta0)*sin(phi) + sin(psi)*cos(phi))) * VelocityUnit
     vz = (vr*cos(theta0) - vt*cos(psi)*sin(theta0)) * VelocityUnit
 
-    # write this star to the file
+    # write the star to the file
     star = '%f %f %f %f %f %f %f' % (mass, x, y, z, vx, vy, vz)
     f.write(star + '\n')
 
