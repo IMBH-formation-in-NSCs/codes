@@ -1,0 +1,70 @@
+###################
+# Global parameters
+###################
+# Virial velocity of the galaxy [km/s]
+v200                            0.0
+# Virial mass of the galaxy [1e10 Msol]
+# Overrides the v200 parameter
+m200                            1e-4
+# Halo spin parameter
+lambda                          0.0
+# Redshift
+#redshift			0
+# Refinement level of the potential grid (where to start; 2^{level_coarse + #ofboxes})
+level_coarse                    8
+# Refinement level of the plane plane density grid
+level_grid_mid_dens             8
+# Refinement level of the turbulence grid
+level_grid_turb                 8
+# Refinement level of the gaussian field grid
+level_grid_dens_fluct           8
+# Size of the potential grid [kpc]
+boxsize1                        0.06    # 60pc
+boxsize2                        0.005   # 5pc
+# boxsize3                        0.01
+# Dispersion for the Gaussian field fluctuations
+dens_fluct_sigma                0.50
+# Physical injection scale of the random field fluctuations [kpc]
+dens_fluct_scale_inj            2.00
+# Physical dissipation scale of the random field fluctuations [kpc]
+dens_fluct_scale_diss           0.25
+dens_fluct_seed                 1212
+# Seed for the random number generator
+seed                            1246
+# Switch to MCMC ntry algorithm to position particles for a value > 1
+mcmc_ntry                       1
+# Number of iterations to reach hydrostatic equilibrium (zero to deactivate)
+hydro_eq_niter                  3
+
+
+
+#######################
+# Components parameters
+#######################
+
+###############################
+# Component 5: Stellar spheroid
+###############################
+mass_frac5                      1.
+npart5                          10000
+# npart_pot5                      100000
+model5                          5    # Plummer profile
+scale_length5                   0.003     # 3 pc
+cut5                            0.06     # 60 pc
+mcmc_step5                      0.5
+vmax_esc5                       1.0
+jeans_dim5                      1     # spherical symmetry
+type5                           2     # disk
+stream_method5                  4
+stream_fraction5                0.
+min_age5                        50.
+metal5                          0.001
+compute_vel5                    1
+imf_model5		                	5    # Kroupa IMF (Warning: dicewiki is incorrect. 3&4 gives Chabrier IMF.)
+mstar_min5			                3.
+mstar_max5			                150.
+mcmc_step_mass5			            0.01
+
+# What is the difference between 2(disk) and 4(star)?
+# -Disk has all the necessary characteristics (mass, spatial coordinate, velocity, etc.)
+# -Star has more...(e.g. stellar evolution) but we don't need it.
