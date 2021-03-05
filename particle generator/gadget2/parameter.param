@@ -1,0 +1,149 @@
+
+%  Relevant files
+
+%InitCondFile  	   /home/shinej/Codes/Gadget-2.0.7/ICs/galaxy_littleendian.dat
+
+InitCondFile	   /Users/minjukum/dice/bin/dice_nsc1.g1
+OutputDir          ./nsc1-output
+
+%InitCondFile_2	   1
+
+%InitCondFile       /Users/shin/Documents/Codes/Gadget-2.0.7/ICs/Agora_IC/Agora_gadget.dat
+%OutputDir          /Users/shin/Documents/Codes/Gadget-2.0.7/Gadget/SplitIC/splittest/output
+
+EnergyFile         energy.txt
+InfoFile           info.txt
+TimingsFile        timings.txt
+CpuFile            cpu.txt
+
+RestartFile        restart
+SnapshotFileBase   snapshot
+
+OutputListFilename outputs.txt
+
+% CPU time -limit
+
+TimeLimitCPU      144000  % = 40 hours
+ResubmitOn        0
+ResubmitCommand   my-scriptfile  
+
+
+% Code options
+
+
+ICFormat                 1
+SnapFormat               3
+ComovingIntegrationOn    0
+
+TypeOfTimestepCriterion  0
+OutputListOn             0
+PeriodicBoundariesOn     0
+
+%  Caracteristics of run
+
+TimeBegin           0.00        % Begin of the simulation
+TimeMax	            0.01        % End of the simulation
+
+Omega0	              0.0
+OmegaLambda           0.0
+OmegaBaryon           0.0
+HubbleParam           1.0
+BoxSize               0       %periodic box size
+
+% Output frequency
+
+TimeBetSnapshot        0.0100
+TimeOfFirstSnapshot    0.00
+
+CpuTimeBetRestartFile     50    ; here in seconds
+TimeBetStatistics         0.05
+
+
+NumFilesPerSnapshot       1
+NumFilesWrittenInParallel 1
+
+
+
+% Accuracy of time integration
+
+ErrTolIntAccuracy      0.025 
+
+CourantFac             0.15     
+
+MaxSizeTimestep       0.05 
+MinSizeTimestep       1.0e-8
+
+
+
+
+% Tree algorithm, force accuracy, domain update frequency
+
+ErrTolTheta            0.5            
+TypeOfOpeningCriterion 1
+ErrTolForceAcc         0.0025
+
+
+TreeDomainUpdateFrequency    0.1
+
+
+%  Further parameters of SPH
+
+DesNumNgb              32
+MaxNumNgbDeviation     2
+ArtBulkViscConst       1.0
+
+InitGasTemp            1e4          % always ignored if set to 0 
+MinGasTemp             5.0
+
+
+% Memory allocation
+
+PartAllocFactor       30
+TreeAllocFactor       2.0
+BufferSize            1000         % in MByte
+
+
+% System of units
+
+UnitLength_in_cm         3.085678e21        ;  1.0 kpc 
+UnitMass_in_g            1.989e43           ;  1.0e10 solar masses 
+UnitVelocity_in_cm_per_s 1e5                ;  1 km/sec 
+GravityConstantInternal  0
+ 
+
+% Softening lengths
+
+MinGasHsmlFractional 0.0714
+
+SofteningGas       0.08
+SofteningHalo      0.08
+SofteningDisk      0.08
+SofteningBulge     0.08          
+SofteningStars     0.08
+SofteningBndry     0.08
+
+SofteningGasMaxPhys       0.08
+SofteningHaloMaxPhys      0.08
+SofteningDiskMaxPhys      0.08
+SofteningBulgeMaxPhys     0.08          
+SofteningStarsMaxPhys     0.08
+SofteningBndryMaxPhys     0.08
+
+
+MaxRMSDisplacementFac 0.2
+
+%%%%GrackleDataFile      CloudyData_UVB=HM2012.h5
+
+%-------------- FIRE (PFH) explicit star formation & feedback model (FIRE on)
+%--- initial metallicity of gas & stars in simulation 
+
+%%%%InitMetallicity             1  % initial gas+stellar metallicity (in solar)
+%%%%InitStellarAge              100.   % initial mean age (in Gyr; for stars in sim ICs)
+%---- Star Formation parameters (GALSF on)
+%%%%CritPhysDensity     10.   %AGORA   %  critical physical density for star formation (cm^(-3))
+%%%%SfEffPerFreeFall    0.01       %AGORA(1 percent)   %  SFR/(Mgas/tfreefall) for gas which meets SF criteria
+
+%---- Turbulent Diffusion Master Switch (TURB_DIFFUSION on)
+%TurbDiffusionCoefficient    100.0    % Normalizes diffusion rates relative to Smagorinsky-Lilly theory [best calibration] (~0.5-2)
+
+%%%%FeedbackParam 1.0
