@@ -5,12 +5,12 @@
 v200                            0.0
 # Virial mass of the galaxy [1e10 Msol]
 # Overrides the v200 parameter
-m200                            1e-4
+m200                            1e-4    # 10^6 solarmass
 # Halo spin parameter
-lambda                          0.0
+lambda                          0.0  # overall spin
 # Redshift
 #redshift			0
-# Refinement level of the potential grid (where to start; 2^{level_coarse + #ofboxes})
+# Refinement level of the potential grid
 level_coarse                    8
 # Refinement level of the plane plane density grid
 level_grid_mid_dens             8
@@ -46,7 +46,7 @@ hydro_eq_niter                  3
 # Component 5: Stellar spheroid
 ###############################
 mass_frac5                      1.
-npart5                          10000
+npart5                          10000    # any number >0
 # npart_pot5                      100000
 model5                          5    # Plummer profile
 scale_length5                   0.003     # 3 pc
